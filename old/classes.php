@@ -13,7 +13,7 @@ class MyAthlete {
             $this->lname = $lname;
         }
 
-    
+    $statement = $pdo->prepare("insert into athlete (fname, lname) values ('jack', 'holmes')");
     $statement->execute();
 
 

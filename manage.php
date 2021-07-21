@@ -12,21 +12,24 @@ if(!empty($_SESSION['statusMsg'])){
         <div class="panel-heading">Users <a href="add.php" class="glyphicon glyphicon-plus"></a></div>
         <table class="table">
             <tr>
-                <th width="25%"></th>
-                <th width="25%">#</th>
+                <th width="5%">#</th>
                 <th width="20%">Name</th>
+                <th width="30%">Email</th>
+                <th width="20%">Phone</th>
+                <th width="12%">Created</th>
                 <th width="13%"></th>
             </tr>
             <?php
-            include 'DB.php';
+            include 'newdb.php';
             $db = new DB();
             $users = $db->getRows('athlete');
             if(!empty($users)){ $count = 0; foreach($users as $user){ $count++;?>
             <tr>
-                <td></td>
                 <td><?php echo $count; ?></td>
-                <td><?php echo $user['lname']; ?></td>
                 <td><?php echo $user['fname']; ?></td>
+                <td><?php echo $user['email']; ?></td>
+                <td><?php echo $user['phone']; ?></td>
+                <td><?php echo $user['created']; ?></td>
                 <td>
                     <a href="edit.php?id=<?php echo $user['id']; ?>" class="glyphicon glyphicon-edit"></a>
                     <a href="action.php?action_type=delete&id=<?php echo $user['id']; ?> class="glyphicon glyphicon-trash" onclick="return confirm('Are you sure?');"></a>
