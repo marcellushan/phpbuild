@@ -1,5 +1,5 @@
 <?php
-include 'DB.php';
+include '../DB.php';
 $db = new DB();
 $userData = $db->getRows('athlete',array('where'=>array('id'=>$_GET['id']),'return_type'=>'single'));
 if(!empty($userData)){
@@ -11,11 +11,11 @@ if(!empty($userData)){
             <form method="post" action="action.php" class="form" id="userForm">
                 <div class="form-group">
                     <label>Name</label>
-                    <input type="text" class="form-control" name="name" value="<?php echo $userData['name']; ?>"/>
+                    <input type="text" class="form-control" name="name" value="<?php echo $userData['lname']; ?>"/>
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="text" class="form-control" name="email" value="<?php echo $userData['email']; ?>"/>
+                    <input type="text" class="form-control" name="email" value="<?php echo $userData['fname']; ?>"/>
                 </div>
                 <div class="form-group">
                     <label>Phone</label>

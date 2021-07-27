@@ -7,16 +7,8 @@
                     <label>Name</label>
                     <input type="text" class="form-control" name="name"/>
                 </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="text" class="form-control" name="email"/>
-                </div>
-                <div class="form-group">
-                    <label>Phone</label>
-                    <input type="text" class="form-control" name="phone"/>
-                </div>
                 <input type="hidden" name="action_type" value="add"/>
-                <input type="submit" class="form-control btn-default" name="submit" value="Add User"/>
+                <input type="submit" class="form-control btn-default" name="submit" value="Add Family"/>
             </form>
         </div>
     </div>

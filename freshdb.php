@@ -1,15 +1,22 @@
 <?php
-
+/*
+ * DB Class
+ * This class is used for database related (connect, insert, update, and delete) operations
+ * with PHP Data Objects (PDO)
+ * @author    CodexWorld.com
+ * @url       http://www.codexworld.com
+ * @license   http://www.codexworld.com/license
+ */
 class DB{
 
-    private $dbHost     =   'localhost';
-    private $dbUsername =   'django';
-    private $dbPassword =   'django';
-    private $dbName     =   'arizona';
+    private $dbHost     = "localhost";
+    private $dbUsername = "root";
+    private $dbPassword = "";
+    private $dbName     = "codexworld";
 
     public function __construct(){
-        if(!isset($this->db))
-            //connect to the db
+        if(!isset($this->db)){
+            // Connect to the database
             try{
                 $conn = new PDO("mysql:host=".$this->dbHost.";dbname=".$this->dbName, $this->dbUsername, $this->dbPassword);
                 $conn -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -17,9 +24,10 @@ class DB{
             }catch(PDOException $e){
                 die("Failed to connect with MySQL: " . $e->getMessage());
             }
+        }
     }
-
- /*
+    
+    /*
      * Returns rows from the database based on the conditions
      * @param string name of the table
      * @param array select, where, order_by, limit and return_type conditions
@@ -69,7 +77,12 @@ class DB{
         }
         return !empty($data)?$data:false;
     }
-
+    
+    /*
+     * Insert data into the database
+     * @param string name of the table
+     * @param array the data for inserting into the table
+     */
     public function insert($table,$data){
         if(!empty($data) && is_array($data)){
             $columns = '';
@@ -85,20 +98,18 @@ class DB{
             $columnString = implode(',', array_keys($data));
             $valueString = ":".implode(',:', array_keys($data));
             $sql = "INSERT INTO ".$table." (".$columnString.") VALUES (".$valueString.")";
-
             $query = $this->db->prepare($sql);
             foreach($data as $key=>$val){
                  $query->bindValue(':'.$key, $val);
             }
-            // var_dump($data);
             $insert = $query->execute();
             return $insert?$this->db->lastInsertId():false;
         }else{
             return false;
         }
     }
-
-     /*
+    
+    /*
      * Update data into the database
      * @param string name of the table
      * @param array the data for updating into the table
@@ -134,6 +145,25 @@ class DB{
             return false;
         }
     }
-
+    
+    /*
+     * Delete data from the database
+     * @param string name of the table
+     * @param array where condition on deleting data
+     */
+    public function delete($table,$conditions){
+        $whereSql = '';
+        if(!empty($conditions)&& is_array($conditions)){
+            $whereSql .= ' WHERE ';
+            $i = 0;
+            foreach($conditions as $key => $value){
+                $pre = ($i > 0)?' AND ':'';
+                $whereSql .= $pre.$key." = '".$value."'";
+                $i++;
+            }
+        }
+        $sql = "DELETE FROM ".$table.$whereSql;
+        $delete = $this->db->exec($sql);
+        return $delete?$delete:false;
+    }
 }
-   
